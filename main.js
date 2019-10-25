@@ -62,12 +62,9 @@ function onSubmit(event){
     }     
 }
 
-function onReset(event){
-    
-    event.preventDefault();  
+function addRules(){
     const userRule = rulesInput.options[rulesInput.selectedIndex].value
     console.log(userRule);
-    
 }
 
 function filterList(){  
@@ -87,6 +84,13 @@ function filterList(){
 
 /*
 
+function onReset(event){
+    
+    event.preventDefault();  
+    const userRule = rulesInput.options[rulesInput.selectedIndex].value
+    console.log(userRule);
+    
+}
 numberEnteredInput.value = '';
 
 if(nameInput.value ===''){
