@@ -107,7 +107,7 @@ function filterList(){
     //if multiple rules applied then do this
         if(userRule_StartsWith.length > 0  && userRule_EndsWith.length > 0 ){
             MultipleRulesApplied();
-            //should I make the startsWith and endsWith array null?
+            //should I make the userRule_StartsWith and userRule_EndsWith array empty?
             userRule_StartsWith.length = 0;
             userRule_EndsWith.length = 0;
         }
@@ -117,11 +117,15 @@ function filterList(){
         //if only starts with rule then do this
         if(userRule_StartsWith.length > 0  && userRule_EndsWith.length == 0){
             startsWithRuleApplied();
+            //should I make the userRule_StartsWith array empty?
+            userRule_StartsWith.length = 0;
         }
     
         //if only ends with rule is applied then do this
         if(userRule_StartsWith.length == 0 && userRule_EndsWith.length > 0){
             endsWithRuleApplied();
+            //should I make the userRule_EndsWith array empty?
+            userRule_EndsWith.length = 0;
         }
 
     //show user the filtered list
