@@ -4,7 +4,7 @@
 
 const myForm = document.querySelector('#my-form');
 const errorMsg = document.querySelector('.msg');
-const nameInput = document.querySelector('#name');
+const numberInput = document.querySelector('#phoneNumber');
 const numberEnteredInput = document.querySelector('#numberEntered');
 const rulesInput = document.querySelector('#rule');
 const userList = document.querySelector('#users');
@@ -43,10 +43,10 @@ function onSubmit(event){
     
     event.preventDefault();
    
-    if(nameInput.value !==''){
+    if(numberInput.value !==''){
     
         //building the user phone list
-        let userInputPhoneNumber = createPhoneNumber(nameInput.value);
+        let userInputPhoneNumber = createPhoneNumber(numberInput.value);
         phoneArray.push(userInputPhoneNumber);
 
         //Testing the phoneArray
@@ -54,10 +54,10 @@ function onSubmit(event){
 
         //shows the user the list of phone numbers they are creating
         const li =document.createElement('li');
-        li.appendChild(document.createTextNode(`${nameInput.value}`));
+        li.appendChild(document.createTextNode(`${numberInput.value}`));
         userList.appendChild(li);
         //clear fields
-        nameInput.value = '';
+        numberInput.value = '';
     
     }     
 }
