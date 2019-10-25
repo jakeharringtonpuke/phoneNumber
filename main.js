@@ -17,6 +17,8 @@ let phoneArray = [];
 let userRule_StartsWith = [];
 let userRule_EndsWith = [];
 let filteredListForMultipleRules = [];
+let filteredListForStartsWithRuleApplied = [];
+let filteredListForEndsWithRuleApplied = [];
 
 
 class phone{
@@ -127,9 +129,19 @@ function filterList(){
 function MultipleRulesApplied(){
     //if phone number starts with xxx and ends with yyy then ignore that number
     // else push number into the filteredListForMultipleRules
-    
+    return "MultipleRulesApplied";
 }
 
+function startsWithRuleApplied(){
+    //if phone number does not start with xxx then push into the filteredListForStartsWithRuleApplied 
+    return "startsWithRuleApplied";
+}
+
+
+function endsWithRuleApplied(){
+    //if phone number does not start with xxx then push into the filteredListForEndsWithRuleApplied
+    return "endsWithRuleApplied";
+}
 
 
 
