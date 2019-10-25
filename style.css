@@ -1,0 +1,26 @@
+  
+  .btn {
+    display: block;
+    width: 100%;
+    background: #333;
+    color: #fff;
+    border-radius: 5px;
+    margin: 5px 0;
+  }
+  .btn-red {
+    display: block;
+    width: 100%;
+    background: red;
+    color: #fff;
+  }
+  
+  .btn:hover {
+    background: #444;
+  }
+  
+  .error {
+    background: orangered;
+    color: #fff;
+    padding: 5px;
+    margin: 5px;
+  }

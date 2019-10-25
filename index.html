@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>JS For Beginners</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+
+    <section>
+        <form id="my-form">
+            <h1>Add users</h1>
+            <div class='msg'></div>
+            <div>
+                <label for="name">Input:</label>
+                <input type="text" id="name" pattern="[0-9]{7}" placeholder="9293404" required 
+                oninvalid="this.setCustomValidity('Please Enter valid Phone number without area code ==> 9293404')"
+                oninput="setCustomValidity('')">
+            </div>
+            <div>
+                <label for="rule">Rules:</label>
+                <select id="rule">
+                    <option value="1">Starts with</option>
+                    <option value="2">Ends with</option>
+                </select>
+            </div>
+            <div>
+              <!--- validation doesnt work-->
+                <label for="numberEntered">Number:</label>
+                <input type="text" id="numberEntered" pattern="[0-9]{3}" placeholder="929" 
+                oninvalid="this.setCustomValidity('Please Enter valid 3 digits ==> 929')"
+                oninput="setCustomValidity('')">
+            </div>
+            <input type="submit" value="Submit" class="btn">
+            <input type="reset" value="Add" class="btn-red">
+            <input type="button" onclick="filterList()" value="Filter List" class="btn">
+        </form>
+        <label for="users">Phone Numbers</label>
+        <ul id="users"></ul>
+        <label for="results">Wanted Numbers</label>
+        <ul id="results"></ul>
+    </section>
+   
+
+    <script src="main.js"></script>
+  </body>
+</html>
