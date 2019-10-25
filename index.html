@@ -12,13 +12,16 @@
     <section>
         <form id="my-form">
             <h1>Phone Filter</h1>
+            
             <div class='msg'></div>
+            
             <div>
                 <label for="phoneNumber">Input:</label>
                 <input type="text" id="phoneNumber" pattern="[0-9]{7}" placeholder="9293404" required 
                 oninvalid="this.setCustomValidity('Please Enter valid Phone number without area code ==> 9293404')"
                 oninput="setCustomValidity('')">
             </div>
+            
             <div>
                 <label for="rule">Rules:</label>
                 <select id="rule">
@@ -26,6 +29,7 @@
                     <option value="2">Ends with</option>
                 </select>
             </div>
+            
             <div>
               <!--- validation doesnt work-->
                 <label for="numberEntered">Number:</label>
@@ -33,14 +37,22 @@
                 oninvalid="this.setCustomValidity('Please Enter valid 3 digits ==> 929')"
                 oninput="setCustomValidity('')">
             </div>
+
+
             <input type="submit" value="Submit" class="btn">
+            
             <input type="reset" value="Add" class="btn-red">
+            
             <input type="button" onclick="filterList()" value="Filter List" class="btn">
-        </form>
+        
+          </form>
+        
         <label for="users">Phone Numbers</label>
         <ul id="users"></ul>
+        
         <label for="results">Wanted Numbers</label>
         <ul id="results"></ul>
+    
     </section>
    
 
