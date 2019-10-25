@@ -16,6 +16,8 @@ myForm.addEventListener('reset', onAdd);
 let phoneArray = [];
 let userRule_StartsWith = [];
 let userRule_EndsWith = [];
+let filteredListForMultipleRules = [];
+
 
 class phone{
   constructor(startsWith,endsWith,phoneNumber){
@@ -76,7 +78,11 @@ function onAdd(event){
 
     // if rule starts With is selected then push that value into the userRule_StartsWith array
     if(userRule == 1){
-        userRule_StartsWith.push(numberEnteredInput.value);
+        
+        //check if numberEnteredInput already exists to avoid duplicates
+        if(!userRule_StartsWith.includes(numberEnteredInput.value)){
+            userRule_StartsWith.push(numberEnteredInput.value);
+        }
     }
 
     //test to check userRule_StartsWith array
@@ -84,17 +90,45 @@ function onAdd(event){
 
     // if rule ends With is selected then push that value into the userRule_EndsWith array
     if(userRule == 2){
-        userRule_EndsWith.push(numberEnteredInput.value);
+
+        //check if numberEnteredInput already exists to avoid duplicates
+        if(!userRule_EndsWith.includes(numberEnteredInput.value)){
+            userRule_EndsWith.push(numberEnteredInput.value);
+        }
     }
     //test to check userRule_StartsWith array
     console.log(userRule_EndsWith);
 }
 
 function filterList(){  
-  
+
+    //if multiple rules applied then do this
+        if(startsWith !==null && endsWith !== null){
+            MultipleRulesApplied();
+            //should I make the startsWith and endsWith array null?
+        }
+        
+    //if only one rule applied then do this
+        
+        //if only starts with rule then do this
+        if(startsWith !==null && endsWith ===null){
+            startsWithRuleApplied();
+        }
+    
+        //if only ends with rule is applied then do this
+        if(startsWith === null && endsWith !==null){
+            endsWithRuleApplied();
+        }
+
+    //show user the filtered list
+        showFilteredListToUser();
 }
 
-
+function MultipleRulesApplied(){
+    //if phone number starts with xxx and ends with yyy then ignore that number
+    // else push number into the filteredListForMultipleRules
+    
+}
 
 
 
