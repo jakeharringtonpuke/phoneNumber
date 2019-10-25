@@ -105,7 +105,7 @@ function onAdd(event){
 function filterList(){  
 
     //if multiple rules applied then do this
-        if(startsWith !==null && endsWith !== null){
+        if(userRule_StartsWith.length > 0  && userRule_EndsWith.length > 0 ){
             MultipleRulesApplied();
             //should I make the startsWith and endsWith array null?
         }
@@ -113,12 +113,12 @@ function filterList(){
     //if only one rule applied then do this
         
         //if only starts with rule then do this
-        if(startsWith !==null && endsWith ===null){
+        if(userRule_StartsWith.length > 0  && userRule_EndsWith.length == 0){
             startsWithRuleApplied();
         }
     
         //if only ends with rule is applied then do this
-        if(startsWith === null && endsWith !==null){
+        if(userRule_StartsWith.length == 0 && userRule_EndsWith.length > 0){
             endsWithRuleApplied();
         }
 
