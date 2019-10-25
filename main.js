@@ -108,6 +108,8 @@ function filterList(){
         if(userRule_StartsWith.length > 0  && userRule_EndsWith.length > 0 ){
             MultipleRulesApplied();
             //should I make the startsWith and endsWith array null?
+            userRule_StartsWith.length = 0;
+            userRule_EndsWith.length = 0;
         }
         
     //if only one rule applied then do this
