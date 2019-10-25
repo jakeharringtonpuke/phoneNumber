@@ -10,6 +10,9 @@ const rulesInput = document.querySelector('#rule');
 const userList = document.querySelector('#users');
 const resultList = document.querySelector('#results');
 
+myForm.addEventListener('submit', onSubmit);
+myForm.addEventListener('reset', onAdd);
+
 let phoneArray = [];
 let userRule_StartsWith = [];
 let userRule_EndsWith = [];
@@ -21,6 +24,7 @@ class phone{
     this.endsWith = endsWith;
   }
 }
+
 function createPhoneNumber(userProvidedNumber){
     //check params
 
@@ -32,10 +36,7 @@ function createPhoneNumber(userProvidedNumber){
 
     return newPhone;
     
-  }
-
-myForm.addEventListener('submit', onSubmit);
-myForm.addEventListener('reset', onReset);
+}
 
 
 // Rules section Starts here
@@ -64,8 +65,9 @@ function onSubmit(event){
     }     
 }
 
-function addRules(){
+function onAdd(event){
     
+    event.preventDefault();  
     const userRule = rulesInput.options[rulesInput.selectedIndex].value
     //test to check the user rule is properley selected
     console.log(userRule);
@@ -73,7 +75,7 @@ function addRules(){
     // check if numberEnteredInput for the rule is valid
 
     // if rule starts With is selected then push that value into the userRule_StartsWith array
-    if(userRule === 1){
+    if(userRule == 1){
         userRule_StartsWith.push(numberEnteredInput.value);
     }
 
@@ -81,11 +83,11 @@ function addRules(){
     console.log(userRule_StartsWith);
 
     // if rule ends With is selected then push that value into the userRule_EndsWith array
-    if(userRule === 1){
+    if(userRule == 2){
         userRule_EndsWith.push(numberEnteredInput.value);
     }
     //test to check userRule_StartsWith array
-    console.log(userRule_StartsWith);
+    console.log(userRule_EndsWith);
 }
 
 function filterList(){  
@@ -105,13 +107,7 @@ function filterList(){
 
 /*
 
-function onReset(event){
-    
-    event.preventDefault();  
-    const userRule = rulesInput.options[rulesInput.selectedIndex].value
-    console.log(userRule);
-    
-}
+
 numberEnteredInput.value = '';
 
 if(nameInput.value ===''){
