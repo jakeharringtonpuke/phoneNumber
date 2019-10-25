@@ -104,12 +104,17 @@ function onAdd(event){
 
 function filterList(){  
 
+    console.log(`userRule_StartsWith.length ${userRule_StartsWith.length} and \n 
+        userRule_EndsWith.length ${userRule_EndsWith.length} `);
     //if multiple rules applied then do this
         if(userRule_StartsWith.length > 0  && userRule_EndsWith.length > 0 ){
             MultipleRulesApplied();
             //should I make the userRule_StartsWith and userRule_EndsWith array empty?
             userRule_StartsWith.length = 0;
             userRule_EndsWith.length = 0;
+
+             //test
+             console.log(MultipleRulesApplied());
         }
         
     //if only one rule applied then do this
@@ -119,6 +124,9 @@ function filterList(){
             startsWithRuleApplied();
             //should I make the userRule_StartsWith array empty?
             userRule_StartsWith.length = 0;
+
+            //test
+            console.log(startsWithRuleApplied());
         }
     
         //if only ends with rule is applied then do this
@@ -126,10 +134,16 @@ function filterList(){
             endsWithRuleApplied();
             //should I make the userRule_EndsWith array empty?
             userRule_EndsWith.length = 0;
+
+            //test
+            console.log(endsWithRuleApplied());
         }
 
     //show user the filtered list
         showFilteredListToUser();
+
+        //test
+        console.log(showFilteredListToUser());
 }
 
 function MultipleRulesApplied(){
@@ -149,6 +163,9 @@ function endsWithRuleApplied(){
     return "endsWithRuleApplied";
 }
 
+function showFilteredListToUser(){
+    return "showFilteredListToUser"
+}
 
 
 
