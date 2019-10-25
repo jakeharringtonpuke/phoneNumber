@@ -11,6 +11,8 @@ const userList = document.querySelector('#users');
 const resultList = document.querySelector('#results');
 
 let phoneArray = [];
+let userRule_StartsWith = [];
+let userRule_EndsWith = [];
 
 class phone{
   constructor(startsWith,endsWith,phoneNumber){
@@ -63,8 +65,27 @@ function onSubmit(event){
 }
 
 function addRules(){
+    
     const userRule = rulesInput.options[rulesInput.selectedIndex].value
+    //test to check the user rule is properley selected
     console.log(userRule);
+
+    // check if numberEnteredInput for the rule is valid
+
+    // if rule starts With is selected then push that value into the userRule_StartsWith array
+    if(userRule === 1){
+        userRule_StartsWith.push(numberEnteredInput.value);
+    }
+
+    //test to check userRule_StartsWith array
+    console.log(userRule_StartsWith);
+
+    // if rule ends With is selected then push that value into the userRule_EndsWith array
+    if(userRule === 1){
+        userRule_EndsWith.push(numberEnteredInput.value);
+    }
+    //test to check userRule_StartsWith array
+    console.log(userRule_StartsWith);
 }
 
 function filterList(){  
