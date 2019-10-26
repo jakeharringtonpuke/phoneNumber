@@ -20,6 +20,8 @@ let filteredListForEndsWithRuleApplied = [];
 
 class phone{
   constructor(phoneNumber){
+    //make phoneNumber into string
+    phoneNumber = phoneNumber.toString();
     this.phoneNumber = phoneNumber;
     this.startsWithThree = phoneNumber.substring(0,3);
     this.endsWithThree = phoneNumber.substring(4);
@@ -31,8 +33,7 @@ class phone{
 function createPhoneNumber(userProvidedNumber){
     //check params
 
-    //make userProvidedNumber into string
-    userProvidedNumber = userProvidedNumber.toString();
+    
     //if good then add number to the number
     const newPhone = new phone(userProvidedNumber);
 
