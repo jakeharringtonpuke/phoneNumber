@@ -93,6 +93,8 @@ function onAdd(event){
     
     // if the user input for the rule did not mathc the requirements 
     //then an error message is displayed
+    //if user input for rules are not good then the userRule_StartsWith
+    //and userRule_EndsWith arrays stay empty.
     if(userRule_StartsWith.length == 0 && userRule_EndsWith.length == 0){
         errorMsgForUserRule();
     }
