@@ -1,6 +1,3 @@
-//ToDo
-//remember each function should do only one job! here one fuction is doing more than one job!!!
-
 
 const myForm = document.querySelector('#my-form');
 const errorMsg = document.querySelector('.msg');
@@ -49,7 +46,7 @@ function createPhoneNumber(userProvidedNumber){
 function onSubmit(event){
     
     event.preventDefault();
-   
+
     if(numberInput.value !==''){
     
         //building the user phone list
@@ -72,34 +69,76 @@ function onSubmit(event){
 function onAdd(event){
     
     event.preventDefault();  
-    const userRule = rulesInput.options[rulesInput.selectedIndex].value
-    //test to check the user rule is properley selected
-    console.log(userRule);
+    
+    //user rule inputs expected pattern
+    let pattern = "[0-9]{3,4}";
+    
+    //checks if user input is only 3 or 4 digits long
+    if(!(numberEnteredInput.length < 3 && numberEnteredInput.length > 4) ){
 
-    // check if numberEnteredInput for the rule is valid
+        //cleaning user input
+        numberEnteredInput.value = (numberEnteredInput.value).match(pattern);
+
+        //testing numberEnteredInput.value
+        console.log(`user Input for filer ==>${numberEnteredInput.value}`);
+
+        // check if numberEnteredInput for the rule is valid
+
+        addingUserRuleToArray();
+
+        //test to check userRule_StartsWith array
+        console.log(userRule_StartsWith);
+
+        
+        //test to check userRule_StartsWith array
+        console.log(userRule_EndsWith);
+    }
+    
+    // if the user input for the rule did not mathc the requirements 
+    //then an error message is displayed
+    if(userRule_StartsWith.length == 0 && userRule_EndsWith.length == 0){
+        errorMsgForUserRule();
+    }
+        
+}
+
+function addingUserRuleToArray(){
+    const userRule = rulesInput.options[rulesInput.selectedIndex].value
+
+    //test to check the user rule is properly selected
+    console.log(userRule);
 
     // if rule starts With is selected then push that value into the userRule_StartsWith array
     if(userRule == 1){
-        
+            
         //check if numberEnteredInput already exists to avoid duplicates
         if(!userRule_StartsWith.includes(numberEnteredInput.value)){
-            userRule_StartsWith.push(numberEnteredInput.value);
+            //final check to not allow any empty values to be pushed to the array
+            if(numberEnteredInput.value !== ""){
+                userRule_StartsWith.push(numberEnteredInput.value);
+            }
+            
         }
     }
-
-    //test to check userRule_StartsWith array
-    console.log(userRule_StartsWith);
 
     // if rule ends With is selected then push that value into the userRule_EndsWith array
     if(userRule == 2){
-
         //check if numberEnteredInput already exists to avoid duplicates
         if(!userRule_EndsWith.includes(numberEnteredInput.value)){
-            userRule_EndsWith.push(numberEnteredInput.value);
+            //final check to not allow any empty values to be pushed to the array
+            if(numberEnteredInput.value !== ""){
+                userRule_EndsWith.push(numberEnteredInput.value);
+            }
         }
     }
-    //test to check userRule_StartsWith array
-    console.log(userRule_EndsWith);
+}
+
+//if the user input for the rules are wrong then this error message is used
+function errorMsgForUserRule(){
+    
+    errorMsg.classList.add('error');
+    errorMsg.innerHTML = 'please enter 3 or 4 digit number only';
+    setTimeout(()=>errorMsg.remove(),3000);    
 }
 
 function filterList(){  

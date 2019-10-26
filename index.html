@@ -12,9 +12,7 @@
     <section>
         <form id="my-form">
             <h1>Phone Filter</h1>
-            
-            <div class='msg'></div>
-            
+
             <div>
                 <label for="phoneNumber">Input:</label>
                 <input type="text" id="phoneNumber" pattern="[0-9]{7}" placeholder="9293404" required 
@@ -25,8 +23,8 @@
             <div>
                 <label for="rule">Rules:</label>
                 <select id="rule">
-                    <option value="1">Starts with</option>
-                    <option value="2">Ends with</option>
+                    <option value="1">Does not start with</option>
+                    <option value="2">Does not end with</option>
                 </select>
             </div>
             
@@ -36,6 +34,7 @@
                 <input type="text" id="numberEntered" pattern="[0-9]{3}" placeholder="929" 
                 oninvalid="this.setCustomValidity('Please Enter valid 3 digits ==> 929')"
                 oninput="setCustomValidity('')">
+                <div class='msg'></div>
             </div>
 
 
