@@ -13,9 +13,8 @@ myForm.addEventListener('reset', onAdd);
 let listOfPhoneNumbers = [];
 let userRule_StartsWith = [];
 let userRule_EndsWith = [];
-let filteredListForMultipleRules = [];
-let filteredListForStartsWithRuleApplied = [];
-let filteredListForEndsWithRuleApplied = [];
+let filteredList = [];
+let counter = 0;
 
 
 class phone{
@@ -105,6 +104,9 @@ function displayPhoneListForUserList(value){
 function onAdd(event){
 
     event.preventDefault();  
+
+    //cleaan up result list
+    cleanResultList()
     
     //user rule inputs expected pattern
     let pattern = "[0-9]{3,4}";
@@ -184,70 +186,86 @@ function errorMsgForUserRule(){
 function filterList(){  
 
     console.log(`userRule_StartsWith.length ${userRule_StartsWith.length} and \n 
-        userRule_EndsWith.length ${userRule_EndsWith.length} `);
-    //if multiple rules applied then do this
-        if(userRule_StartsWith.length > 0  && userRule_EndsWith.length > 0 ){
-            MultipleRulesApplied();
-            //should I make the userRule_StartsWith and userRule_EndsWith array empty?
-            userRule_StartsWith.length = 0;
-            userRule_EndsWith.length = 0;
-
-             //test
-             console.log(MultipleRulesApplied());
-        }
-        
-    //if only one rule applied then do this
-        
-        //if only starts with rule then do this
-        if(userRule_StartsWith.length > 0  && userRule_EndsWith.length == 0){
-            startsWithRuleApplied();
-            //should I make the userRule_StartsWith array empty?
-            userRule_StartsWith.length = 0;
-
-            //test
-            console.log(startsWithRuleApplied());
-        }
+                userRule_EndsWith.length ${userRule_EndsWith.length} `);
     
-        //if only ends with rule is applied then do this
-        if(userRule_StartsWith.length == 0 && userRule_EndsWith.length > 0){
-            endsWithRuleApplied();
-            //should I make the userRule_EndsWith array empty?
-            userRule_EndsWith.length = 0;
+    BuildResultWithDuplicates();
+    //should I make the userRule_StartsWith and userRule_EndsWith array empty?
+    userRule_StartsWith.length = 0;
+    userRule_EndsWith.length = 0;
 
-            //test
-            console.log(endsWithRuleApplied());
-        }
+    console.log(filteredList);
 
+    //cleaan up result list
+    cleanResultList()
+    
+    //increases counter to indicate the number of time filter is used
+    counter++;
     //show user the filtered list
         showFilteredListToUser();
+        
 
-        //test
-        console.log(showFilteredListToUser());
+    //test
+    //console.log(showFilteredListToUser());
+}
+
+//idl if i need this
+function accesOnePhoneObject(phoneNumber){
+    for(let i = 0; i < listOfPhoneNumbers.length; i++ ){
+        if(listOfPhoneNumbers[i].phoneNumber == phoneNumber){
+            return listOfPhoneNumbers[i];
+        }
+    }
+    return null;
+}
+
+function cleanResultList(){
+    //if new filter then clean result list
+    if(counter > 0){
+        while(resultList.firstChild) {
+            resultList.removeChild(resultList.firstChild);
+        }
+    }
+}
+
+//TODO
+function BuildResultWithDuplicates(){
+    for(let i = 0; i < listOfPhoneNumbers.length; i++){
+        for(let j = 0; j < userRule_StartsWith.length; j++){
+            console.log(`start==> ${listOfPhoneNumbers[i].startsWithThree !== userRule_StartsWith[j]}`)
+            if(listOfPhoneNumbers[i].startsWithThree !== userRule_StartsWith[j]){
+                filteredList.push(listOfPhoneNumbers[i].phoneNumber);
+            }
+        }
+    }
+    filteredList = [...new Set(filteredList)];
+
+ 
+        for(let i = 0; i < listOfPhoneNumbers.length; i++){
+            for(let j = 0; j < userRule_EndsWith.length; j++){
+                console.log(`ends==> ${listOfPhoneNumbers[i].endsWithThree !== userRule_EndsWith[j]}`);
+                if(!(listOfPhoneNumbers[i].endsWithThree !== userRule_EndsWith[j])){
+                    for(let k = 0; k < filteredList.length; k++){
+                        filteredList = filteredList.splice(k,1);
+                    }
+                }
+                if(listOfPhoneNumbers[i].endsWithThree !== userRule_EndsWith[j]){
+                    filteredList.push(listOfPhoneNumbers[i].phoneNumber);
+                }
+            }
+        }
+    
+
+    filteredList = [...new Set(filteredList)];
 }
 
 
-function MultipleRulesApplied(){
-    //if phone number starts with xxx and ends with yyy then ignore that number
-    // else push number into the filteredListForMultipleRules
-   
-    return filteredListForEndsWithRuleApplied;
-}
-
-function startsWithRuleApplied(){
-    //if phone number does not start with xxx then push into the 
-    //filteredListForStartsWithRuleApplied 
-    return "startsWithRuleApplied";
-}
-
-
-function endsWithRuleApplied(){
-    //if phone number does not start with xxx then push into the 
-    //filteredListForEndsWithRuleApplied
-    return "endsWithRuleApplied";
-}
-
+//creates li element to display filtered list of phone numbers
 function showFilteredListToUser(){
-    return "showFilteredListToUser"
+    for(let i = 0 ; i < filteredList.length; i++ ){
+     const li =document.createElement('li');
+     li.appendChild(document.createTextNode(`${filteredList[i]}`));
+     resultList.appendChild(li);
+    }
 }
 
 
