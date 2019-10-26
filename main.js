@@ -19,10 +19,12 @@ let filteredListForEndsWithRuleApplied = [];
 
 
 class phone{
-  constructor(startsWith,endsWith,phoneNumber){
+  constructor(phoneNumber){
     this.phoneNumber = phoneNumber;
-    this.startsWith = startsWith;
-    this.endsWith = endsWith;
+    this.startsWithThree = phoneNumber.substring(0,3);
+    this.endsWithThree = phoneNumber.substring(4);
+    this.startsWithFour = phoneNumber.substring(0,4);
+    this.endsWithFour = phoneNumber.substring(3);
   }
 }
 
@@ -32,16 +34,11 @@ function createPhoneNumber(userProvidedNumber){
     //make userProvidedNumber into string
     userProvidedNumber = userProvidedNumber.toString();
     //if good then add number to the number
-    const newPhone = new phone(userProvidedNumber.substring(0,3),userProvidedNumber.substring(4),
-                    userProvidedNumber);
+    const newPhone = new phone(userProvidedNumber);
 
     return newPhone;
     
 }
-
-
-// Rules section Starts here
-
 
 function onSubmit(event){
     
@@ -82,15 +79,15 @@ function onAdd(event){
         //testing numberEnteredInput.value
         console.log(`user Input for filer ==>${numberEnteredInput.value}`);
 
-        // check if numberEnteredInput for the rule is valid
-
-        addingUserRuleToArray();
+        // add numberEnteredInput to either userRule_StartsWith array or
+        // userRule_EndsWith array
+        addingUserRuleToUserRule_StartsWithAndUserRule_EndsWithArrays();
 
         //test to check userRule_StartsWith array
         console.log(userRule_StartsWith);
 
         
-        //test to check userRule_StartsWith array
+        //test to check userRule_EndsWith array
         console.log(userRule_EndsWith);
     }
     
@@ -102,13 +99,17 @@ function onAdd(event){
         
 }
 
-function addingUserRuleToArray(){
+// Rules section Starts here
+function addingUserRuleToUserRule_StartsWithAndUserRule_EndsWithArrays(){
+
+    //get the user rule selected
     const userRule = rulesInput.options[rulesInput.selectedIndex].value
 
     //test to check the user rule is properly selected
     console.log(userRule);
 
-    // if rule starts With is selected then push that value into the userRule_StartsWith array
+    // if rule starts With is selected then push that value into the 
+    //userRule_StartsWith array
     if(userRule == 1){
             
         //check if numberEnteredInput already exists to avoid duplicates
@@ -192,13 +193,15 @@ function MultipleRulesApplied(){
 }
 
 function startsWithRuleApplied(){
-    //if phone number does not start with xxx then push into the filteredListForStartsWithRuleApplied 
+    //if phone number does not start with xxx then push into the 
+    //filteredListForStartsWithRuleApplied 
     return "startsWithRuleApplied";
 }
 
 
 function endsWithRuleApplied(){
-    //if phone number does not start with xxx then push into the filteredListForEndsWithRuleApplied
+    //if phone number does not start with xxx then push into the 
+    //filteredListForEndsWithRuleApplied
     return "endsWithRuleApplied";
 }
 
