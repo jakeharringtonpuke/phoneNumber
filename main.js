@@ -1,4 +1,3 @@
-
 const myForm = document.querySelector('#my-form');
 const errorMsg = document.querySelector('.msg');
 const numberInput = document.querySelector('#phoneNumber');
@@ -202,7 +201,7 @@ function filterList(){
     counter++;
     //show user the filtered list
         showFilteredListToUser();
-        
+        filteredList.length = 0
 
     //test
     //console.log(showFilteredListToUser());
@@ -245,7 +244,7 @@ function BuildResultWithDuplicates(){
                 console.log(`ends==> ${listOfPhoneNumbers[i].endsWithThree !== userRule_EndsWith[j]}`);
                 if(!(listOfPhoneNumbers[i].endsWithThree !== userRule_EndsWith[j])){
                     for(let k = 0; k < filteredList.length; k++){
-                        filteredList = filteredList.splice(k,1);
+                        filteredList.splice(k,1);
                     }
                 }
                 if(listOfPhoneNumbers[i].endsWithThree !== userRule_EndsWith[j]){
@@ -276,17 +275,12 @@ function showFilteredListToUser(){
 
 
 /*
-
-
 numberEnteredInput.value = '';
-
 if(nameInput.value ===''){
         errorMsg.classList.add('error');
         errorMsg.innerHTML = 'please enter all feilds';
         setTimeout(()=>errorMsg.remove(),3000);
     }else
-
-
 for(let i = 0; i < intermediate.length; i++ ){
         
         const li =document.createElement('li');
