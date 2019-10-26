@@ -10,7 +10,7 @@ const resultList = document.querySelector('#results');
 myForm.addEventListener('submit', onSubmit);
 myForm.addEventListener('reset', onAdd);
 
-let phoneArray = [];
+let listOfPhoneNumbers = [];
 let userRule_StartsWith = [];
 let userRule_EndsWith = [];
 let filteredListForMultipleRules = [];
@@ -22,6 +22,7 @@ class phone{
   constructor(phoneNumber){
     //make phoneNumber into string
     phoneNumber = phoneNumber.toString();
+
     this.phoneNumber = phoneNumber;
     this.startsWithThree = phoneNumber.substring(0,3);
     this.endsWithThree = phoneNumber.substring(4);
@@ -32,9 +33,14 @@ class phone{
 
 function createPhoneNumber(userProvidedNumber){
     //check params
+    //user phone number expected pattern
+    let pattern = "[0-9]{7}";
+    userProvidedNumber = userProvidedNumber.match(pattern);
 
-    
-    //if good then add number to the number
+    //test userProvidedNumber
+    console.log(`userProvidedNumber from createPhoneNumber ${userProvidedNumber}`)
+
+    //create phone number
     const newPhone = new phone(userProvidedNumber);
 
     return newPhone;
@@ -42,30 +48,62 @@ function createPhoneNumber(userProvidedNumber){
 }
 
 function onSubmit(event){
-    
     event.preventDefault();
 
     if(numberInput.value !==''){
     
-        //building the user phone list
+        //creates a phone
         let userInputPhoneNumber = createPhoneNumber(numberInput.value);
-        phoneArray.push(userInputPhoneNumber);
-
+        
+        //building the user phone list
+        buildTheUserPhoneList(userInputPhoneNumber);
+        
         //Testing the phoneArray
-        console.log(phoneArray)
+        console.log(listOfPhoneNumbers)
 
-        //shows the user the list of phone numbers they are creating
-        const li =document.createElement('li');
-        li.appendChild(document.createTextNode(`${numberInput.value}`));
-        userList.appendChild(li);
         //clear fields
         numberInput.value = '';
     
     }     
 }
 
+//if phone number dosent exits then adds to the listOfPhoneNumbers array 
+//else checks if the phone number provided already exits
+//if it does not exist, then pushes the phone to the 
+//listOfPhoneNumbers array
+function buildTheUserPhoneList(phone){  
+        if(listOfPhoneNumbers.length == 0){
+            listOfPhoneNumbers.push(phone);
+            displayPhoneListForUserList(phone.phoneNumber);
+        }
+        if(!traverseForDuplicateInListOfPhoneNumbers(phone)){
+            listOfPhoneNumbers.push(phone);
+            displayPhoneListForUserList(phone.phoneNumber);
+        }
+        
+}
+
+//checks if listOfPhoneNumbers array has a number that mathces users 
+//new input of phone of phone number
+function traverseForDuplicateInListOfPhoneNumbers(phone){
+    for(let i = 0; i < listOfPhoneNumbers.length; i++){
+       if(listOfPhoneNumbers[i].phoneNumber == phone.phoneNumber){
+           return true;
+       }
+    }
+    return false;
+}
+
+//shows the user the list of phone numbers they are creating
+function displayPhoneListForUserList(value){
+     
+     const li =document.createElement('li');
+     li.appendChild(document.createTextNode(`${value}`));
+     userList.appendChild(li);
+}
+
 function onAdd(event){
-    
+
     event.preventDefault();  
     
     //user rule inputs expected pattern
@@ -114,14 +152,12 @@ function addingUserRuleToUserRule_StartsWithAndUserRule_EndsWithArrays(){
     // if rule starts With is selected then push that value into the 
     //userRule_StartsWith array
     if(userRule == 1){
-            
         //check if numberEnteredInput already exists to avoid duplicates
         if(!userRule_StartsWith.includes(numberEnteredInput.value)){
             //final check to not allow any empty values to be pushed to the array
             if(numberEnteredInput.value !== ""){
                 userRule_StartsWith.push(numberEnteredInput.value);
-            }
-            
+            }           
         }
     }
 
@@ -189,10 +225,12 @@ function filterList(){
         console.log(showFilteredListToUser());
 }
 
+
 function MultipleRulesApplied(){
     //if phone number starts with xxx and ends with yyy then ignore that number
     // else push number into the filteredListForMultipleRules
-    return "MultipleRulesApplied";
+   
+    return filteredListForEndsWithRuleApplied;
 }
 
 function startsWithRuleApplied(){
