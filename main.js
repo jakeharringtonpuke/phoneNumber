@@ -212,7 +212,24 @@ function filterList(){
         counter = 0;
         location.reload();
     }
-    BuildStartsWith();
+    console.log(`check==> ${userRule_StartsWith.length > 0 && userRule_EndsWith.length < 1}`);
+    //for only startswith
+    if(userRule_StartsWith.length > 0 && userRule_EndsWith.length < 1){
+        buildForOnlyStartsWith();
+    }
+
+    console.log(`check==> ${userRule_StartsWith.length < 1 && userRule_EndsWith.length > 0}`);
+    //for only startswith
+    if(userRule_StartsWith.length < 1 && userRule_EndsWith.length > 0){
+        buildForOnlyEndsWith();
+    }
+
+    console.log(`check==> ${userRule_StartsWith.length > 0 && userRule_EndsWith.length > 0}`);
+    //for multiple rules
+    if(userRule_StartsWith.length > 0 && userRule_EndsWith.length > 0){
+        BuildForMultipleRules();
+    }
+    
     //should I make the userRule_StartsWith and userRule_EndsWith array empty?
     userRule_StartsWith.length = 0;
     userRule_EndsWith.length = 0;
@@ -249,7 +266,7 @@ function cleanResultList(){
 }
 
 //TODO
-function BuildStartsWith(){
+function BuildForMultipleRules(){
        for(let i = 0; i < listOfPhoneNumbers.length; i++){
            for(let j = 0; j < userRule_StartsWith.length; j++){
                if(listOfPhoneNumbers[i].startsWithThree !== userRule_StartsWith[j]){
@@ -279,6 +296,47 @@ function BuildStartsWith(){
         filteredList = [...new Set(filteredList)]; 
        console.log(`BuildStartsWith second ==> ${filteredList}`)
 }
+
+function buildForOnlyStartsWith(){
+    
+    for(let i = 0; i < listOfPhoneNumbers.length; i++){
+           for(let j = 0; j < userRule_StartsWith.length; j++){
+               if(!(listOfPhoneNumbers[i].startsWithThree == userRule_StartsWith[j])){
+                   filteredList.push(listOfPhoneNumbers[i].phoneNumber);
+               }
+           }
+    }
+
+    for(let i = 0; i < filteredList.length; i++){
+        for(let j = 0; j < userRule_StartsWith.length; j++){
+            if(filteredList[i].substring(0,3) == userRule_StartsWith[j]){
+                filteredList.splice(i,1);
+            }
+        }
+    }
+       filteredList = [...new Set(filteredList)];
+}
+
+function buildForOnlyEndsWith(){
+    
+    for(let i = 0; i < listOfPhoneNumbers.length; i++){
+           for(let j = 0; j < userRule_EndsWith.length; j++){
+               if(!(listOfPhoneNumbers[i].endsWithThree == userRule_EndsWith[j])){
+                   filteredList.push(listOfPhoneNumbers[i].phoneNumber);
+               }
+           }
+    }
+
+    for(let i = 0; i < filteredList.length; i++){
+        for(let j = 0; j < userRule_EndsWith.length; j++){
+            if(filteredList[i].substring(4) == userRule_EndsWith[j]){
+                filteredList.splice(i,1);
+            }
+        }
+    }
+       filteredList = [...new Set(filteredList)];
+}
+
 
 //creates li element to display filtered list of phone numbers
 function showFilteredListToUser(){
