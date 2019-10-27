@@ -11,7 +11,7 @@ myForm.addEventListener('submit', onSubmit);
 myForm.addEventListener('reset', onAdd);
 
 let listOfPhoneNumbers = [];
-let removedItems = [];
+let unwantedItems = [];
 let userRuleStartsWith = [];
 let userRuleEndsWith = [];
 let filteredList = [];
@@ -26,6 +26,8 @@ class phone{
     this.phoneNumber = phoneNumber;
     this.startsWithThree = phoneNumber.substring(0,3);
     this.endsWithThree = phoneNumber.substring(4);
+    this.startsWithFour = phoneNumber.substring(0,4);
+    this.endsWithFour = phoneNumber.substring(3);
   }
 }
 
@@ -71,10 +73,10 @@ function onAdd(event){
     event.preventDefault();  
     
     //user rule inputs expected pattern
-    let pattern = "[0-9]{3}";
+    let pattern = "[0-9]{3,4}";
     
     //checks if user input is only 3  digits long
-    if(!(numberEnteredInput.length == 3) ){
+    if(!(numberEnteredInput.length == 3 || numberEnteredInput.length == 4)){
 
         //cleaning user input
         numberEnteredInput.value = (numberEnteredInput.value).match(pattern);
@@ -136,10 +138,7 @@ function filterList(){
     console.log(`check==> ${userRuleStartsWith.length > 0 && userRuleEndsWith.length > 0}`);
     //for multiple rules
     if(userRuleStartsWith.length > 0 && userRuleEndsWith.length > 0){
-        //BuildForMultipleRules();
-        buildForOnlyStartsWith();
-        buildForOnlyEndsWith();
-        BuildForMultipleRules();
+            BuildForMultipleRules();
     }
     
     //should I make the userRule_StartsWith and userRule_EndsWith array empty?
@@ -269,44 +268,26 @@ function cleanResultList(){
 
 //TODO
 function BuildForMultipleRules(){
-        
-        for(let i = 0; i < filteredList.length; i++){
-            for(let j = 0; j < userRuleStartsWith.length; j++){
-                if(filteredList[i].substring(0,3) == userRuleStartsWith[j]){
-                    filteredList.splice(i,1);
-                    i--;
-                }
-            }
-        }
-        console.log(`multi start in ==> ${filteredList}`);
-        for(let i = 0; i < filteredList.length; i++){
-            for(let j = 0; j < userRuleEndsWith.length; j++){    
-                if(filteredList[i].substring(4) == userRuleEndsWith[j] ){
-                    filteredList.splice(i,1);
-                    //because the fileteredList array size goes down after splice
-                    i--;
-                }
-            }
-        }
-
-        filteredList = [...new Set(filteredList)]; 
-       console.log(`BuildStartsWith second ==> ${filteredList}`)
-}
-
-function buildForOnlyStartsWith(){
-    
+    fillFilteredListInitial();
     for(let i = 0; i < listOfPhoneNumbers.length; i++){
            for(let j = 0; j < userRuleStartsWith.length; j++){
-               if(!(listOfPhoneNumbers[i].startsWithThree == userRuleStartsWith[j])){
-                   filteredList.push(listOfPhoneNumbers[i].phoneNumber);
+               if(userRuleStartsWith[j].length == 4){
+                    if(listOfPhoneNumbers[i].startsWithFour == userRuleStartsWith[j]){
+                        unwantedItems.push(listOfPhoneNumbers[i].phoneNumber);
+                    }    
                }
+               if(userRuleStartsWith[j].length == 3){
+                    if(listOfPhoneNumbers[i].startsWithThree == userRuleStartsWith[j]){
+                        unwantedItems.push(listOfPhoneNumbers[i].phoneNumber);
+                    }
+                }
            }
     }
 
     for(let i = 0; i < filteredList.length; i++){
-        for(let j = 0; j < userRuleStartsWith.length; j++){
-            if(filterList[i] !==null && filteredList[i] !== undefined){
-                if(filteredList[i].substring(0,3) == userRuleStartsWith[j]){
+        for(let j = 0; j < unwantedItems.length; j++){
+            if(filterList[i] !== null && filteredList[i] !== undefined){
+                if(filteredList[i] == unwantedItems[j]){
                     filteredList.splice(i,1);
                     //because the fileteredList array size goes down after splice
                     i--;
@@ -314,23 +295,29 @@ function buildForOnlyStartsWith(){
             }
         }
     }
-       filteredList = [...new Set(filteredList)];
-}
 
-function buildForOnlyEndsWith(){
-    
+    //cleaningup removed items
+    unwantedItems.length = 0;
+
     for(let i = 0; i < listOfPhoneNumbers.length; i++){
-           for(let j = 0; j < userRuleEndsWith.length; j++){
-               if(!(listOfPhoneNumbers[i].endsWithThree == userRuleEndsWith[j])){
-                   filteredList.push(listOfPhoneNumbers[i].phoneNumber);
-               }
-           }
+        for(let j = 0; j < userRuleEndsWith.length; j++){
+            if(userRuleEndsWith[j].length == 4){
+                if(listOfPhoneNumbers[i].endsWithFour == userRuleEndsWith[j]){
+                    unwantedItems.push(listOfPhoneNumbers[i].phoneNumber);
+                }    
+            }
+            if(userRuleEndsWith[j].length == 3){
+                if(listOfPhoneNumbers[i].endsWithThree == userRuleEndsWith[j]){
+                    unwantedItems.push(listOfPhoneNumbers[i].phoneNumber);
+                }
+            }
+        }
     }
 
     for(let i = 0; i < filteredList.length; i++){
-        for(let j = 0; j < userRuleEndsWith.length; j++){
+        for(let j = 0; j < unwantedItems.length; j++){
             if(filteredList[i] !== null && filteredList[i] !== undefined){
-                if(filteredList[i].substring(4) == userRuleEndsWith[j]){
+                if(filteredList[i] == unwantedItems[j]){
                     filteredList.splice(i,1);
                     //because the fileteredList array size goes down after splice
                     i--;
@@ -338,9 +325,80 @@ function buildForOnlyEndsWith(){
             }
         }
     }
-       filteredList = [...new Set(filteredList)];
+       console.log(`BuildStartsWith second ==> ${filteredList}`)
 }
 
+function buildForOnlyStartsWith(){
+    fillFilteredListInitial();
+    for(let i = 0; i < listOfPhoneNumbers.length; i++){
+           for(let j = 0; j < userRuleStartsWith.length; j++){
+               if(userRuleStartsWith[j].length == 4){
+                    if(listOfPhoneNumbers[i].startsWitFour == userRuleStartsWith[j]){
+                        unwantedItems.push(listOfPhoneNumbers[i].phoneNumber);
+                        //does extra check thats not needed
+                    }
+               }
+               if(userRuleStartsWith[j].length == 3){
+                    if(listOfPhoneNumbers[i].startsWithThree == userRuleStartsWith[j]){
+                        unwantedItems.push(listOfPhoneNumbers[i].phoneNumber);
+                    }
+               }
+           }
+    }
+    console.log(`startswith new27 ==> ${unwantedItems}`);
+    for(let i = 0; i < filteredList.length; i++){
+        for(let j = 0; j < unwantedItems.length; j++){
+            if(filterList[i] !== null && filteredList[i] !== undefined){
+                if(filteredList[i] == unwantedItems[j]){
+                    filteredList.splice(i,1);
+                    //because the fileteredList array size goes down after splice
+                    //i--;
+                    j--;
+                } 
+            }
+        }
+    }
+
+    //cleaningup removed items
+    unwantedItems.length = 0;
+}
+
+function buildForOnlyEndsWith(){
+    fillFilteredListInitial();
+    for(let i = 0; i < listOfPhoneNumbers.length; i++){
+           for(let j = 0; j < userRuleEndsWith.length; j++){
+                if(userRuleEndsWith[j].length == 4){
+                    if((listOfPhoneNumbers[i].endsWithFour == userRuleEndsWith[j])){
+                        unwantedItems.push(listOfPhoneNumbers[i].phoneNumber);
+                    }
+                }
+                if(userRuleEndsWith[j].length == 3){
+                    if((listOfPhoneNumbers[i].endsWithThree == userRuleEndsWith[j])){
+                        unwantedItems.push(listOfPhoneNumbers[i].phoneNumber);
+                    }
+                }
+           }
+    }
+
+    for(let i = 0; i < filteredList.length; i++){
+        for(let j = 0; j < unwantedItems.length; j++){
+            if(filteredList[i] !== null && filteredList[i] !== undefined){
+                if(filteredList[i] == unwantedItems[j]){
+                    filteredList.splice(i,1);
+                    //because the fileteredList array size goes down after splice
+                    //i--;
+                    j--;
+                }
+            }
+        }
+    }
+
+}
+function fillFilteredListInitial(){
+    for(let i = 0; i < listOfPhoneNumbers.length; i++){
+        filteredList.push(listOfPhoneNumbers[i].phoneNumber);
+    }
+}
 
 //creates li element to display filtered list of phone numbers
 function showFilteredListToUser(){
