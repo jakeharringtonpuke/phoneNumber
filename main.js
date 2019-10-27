@@ -15,7 +15,9 @@ let unwantedItems = [];
 let userRuleStartsWith = [];
 let userRuleEndsWith = [];
 let filteredList = [];
-let counter = 0;
+let counterForFilterList = 0;
+let counterForOnAdd = 0;
+
 
 
 class phone{
@@ -70,8 +72,13 @@ function onSubmit(event){
 
 function onAdd(event){
 
-    event.preventDefault();  
+    event.preventDefault();
     
+    /* introduces a bug
+    if(counterForOnAdd > 1){
+        cleanRulestList();
+        counterForOnAdd = 0;
+    }*/
     //user rule inputs expected pattern
     let pattern = "[0-9]{3,4}";
     
@@ -118,11 +125,13 @@ function filterList(){
     console.log(`userRule_StartsWith.length ${userRuleStartsWith.length} and \n 
                 userRule_EndsWith.length ${userRuleEndsWith.length} `);
     //if new filter then clean result list
+    
     //cheating big time with this
-    if(counter == 1){
-        counter = 0;
+    if(counterForFilterList > 0){
+        counterForFilterList = 0;
         location.reload();
     }
+
     console.log(`check==> ${userRuleStartsWith.length > 0 && userRuleEndsWith.length < 1}`);
     //for only startswith
     if(userRuleStartsWith.length > 0 && userRuleEndsWith.length < 1){
@@ -148,7 +157,9 @@ function filterList(){
     console.log(filteredList);
     
     //increases counter to indicate the number of time filter is used
-    counter++;
+    //so that filtered list display can be cleaned up
+    counterForFilterList++;
+
     //show user the filtered list
         showFilteredListToUser();
         filteredList.length = 0
@@ -258,17 +269,21 @@ function accesOnePhoneObject(phoneNumber){
     }
     return null;
 }
-
-function cleanResultList(){
+function cleanRulestList(){
     //if new filter then clean result list
-    if(counter > 0){
-        while(resultList.firstChild) {
-            resultList.removeChild(resultList.firstChild);
+        while(rulesList.firstChild) {
+            rulesList.removeChild(rulesList.firstChild);
         }
-    }
 }
 
-//TODO
+function cleanResultList(){
+    //if new filter then clean result list   
+        while(resultList.firstChild) {
+            resultList.removeChild(resultList.firstChild);
+        }   
+}
+
+
 function BuildForMultipleRules(){
     fillFilteredListInitial();
     for(let i = 0; i < listOfPhoneNumbers.length; i++){
