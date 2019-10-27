@@ -12,8 +12,8 @@ myForm.addEventListener('reset', onAdd);
 
 let listOfPhoneNumbers = [];
 let removedItems = [];
-let userRule_StartsWith = [];
-let userRule_EndsWith = [];
+let userRuleStartsWith = [];
+let userRuleEndsWith = [];
 let filteredList = [];
 let counter = 0;
 
@@ -94,18 +94,18 @@ function onAdd(event){
         }
 
         //test to check userRule_StartsWith array
-        console.log(userRule_StartsWith);
+        console.log(userRuleStartsWith);
 
         
         //test to check userRule_EndsWith array
-        console.log(userRule_EndsWith);
+        console.log(userRuleEndsWith);
     }
     
     // if the user input for the rule did not mathc the requirements 
     //then an error message is displayed
     //if user input for rules are not good then the userRule_StartsWith
     //and userRule_EndsWith arrays stay empty.
-    if(userRule_StartsWith.length == 0 && userRule_EndsWith.length == 0){
+    if(userRuleStartsWith.length == 0 && userRuleEndsWith.length == 0){
         errorMsgForUserRule();
     }
         
@@ -113,29 +113,29 @@ function onAdd(event){
 
 function filterList(){  
 
-    console.log(`userRule_StartsWith.length ${userRule_StartsWith.length} and \n 
-                userRule_EndsWith.length ${userRule_EndsWith.length} `);
+    console.log(`userRule_StartsWith.length ${userRuleStartsWith.length} and \n 
+                userRule_EndsWith.length ${userRuleEndsWith.length} `);
     //if new filter then clean result list
     //cheating big time with this
     if(counter == 1){
         counter = 0;
         location.reload();
     }
-    console.log(`check==> ${userRule_StartsWith.length > 0 && userRule_EndsWith.length < 1}`);
+    console.log(`check==> ${userRuleStartsWith.length > 0 && userRuleEndsWith.length < 1}`);
     //for only startswith
-    if(userRule_StartsWith.length > 0 && userRule_EndsWith.length < 1){
+    if(userRuleStartsWith.length > 0 && userRuleEndsWith.length < 1){
         buildForOnlyStartsWith();
     }
 
-    console.log(`check==> ${userRule_StartsWith.length < 1 && userRule_EndsWith.length > 0}`);
+    console.log(`check==> ${userRuleStartsWith.length < 1 && userRuleEndsWith.length > 0}`);
     //for only startswith
-    if(userRule_StartsWith.length < 1 && userRule_EndsWith.length > 0){
+    if(userRuleStartsWith.length < 1 && userRuleEndsWith.length > 0){
         buildForOnlyEndsWith();
     }
 
-    console.log(`check==> ${userRule_StartsWith.length > 0 && userRule_EndsWith.length > 0}`);
+    console.log(`check==> ${userRuleStartsWith.length > 0 && userRuleEndsWith.length > 0}`);
     //for multiple rules
-    if(userRule_StartsWith.length > 0 && userRule_EndsWith.length > 0){
+    if(userRuleStartsWith.length > 0 && userRuleEndsWith.length > 0){
         //BuildForMultipleRules();
         buildForOnlyStartsWith();
         buildForOnlyEndsWith();
@@ -143,8 +143,8 @@ function filterList(){
     }
     
     //should I make the userRule_StartsWith and userRule_EndsWith array empty?
-    userRule_StartsWith.length = 0;
-    userRule_EndsWith.length = 0;
+    userRuleStartsWith.length = 0;
+    userRuleEndsWith.length = 0;
 
     console.log(filteredList);
     
@@ -216,10 +216,10 @@ function addingUserRuleToUserRule_StartsWithAndUserRule_EndsWithArrays(){
     //userRule_StartsWith array
     if(userRule == 1){
         //check if numberEnteredInput already exists to avoid duplicates
-        if(!userRule_StartsWith.includes(numberEnteredInput.value)){
+        if(!userRuleStartsWith.includes(numberEnteredInput.value)){
             //final check to not allow any empty values to be pushed to the array
             if(numberEnteredInput.value !== ""){
-                userRule_StartsWith.push(numberEnteredInput.value);
+                userRuleStartsWith.push(numberEnteredInput.value);
                 return true;
             }           
         }
@@ -228,10 +228,10 @@ function addingUserRuleToUserRule_StartsWithAndUserRule_EndsWithArrays(){
     // if rule ends With is selected then push that value into the userRule_EndsWith array
     if(userRule == 2){
         //check if numberEnteredInput already exists to avoid duplicates
-        if(!userRule_EndsWith.includes(numberEnteredInput.value)){
+        if(!userRuleEndsWith.includes(numberEnteredInput.value)){
             //final check to not allow any empty values to be pushed to the array
             if(numberEnteredInput.value !== ""){
-                userRule_EndsWith.push(numberEnteredInput.value);
+                userRuleEndsWith.push(numberEnteredInput.value);
                 return true;
             }
         }
@@ -269,10 +269,10 @@ function cleanResultList(){
 
 //TODO
 function BuildForMultipleRules(){
-
+        
         for(let i = 0; i < filteredList.length; i++){
-            for(let j = 0; j < userRule_StartsWith.length; j++){
-                if(filteredList[i].substring(0,3) == userRule_StartsWith[j]){
+            for(let j = 0; j < userRuleStartsWith.length; j++){
+                if(filteredList[i].substring(0,3) == userRuleStartsWith[j]){
                     filteredList.splice(i,1);
                     i--;
                 }
@@ -280,8 +280,8 @@ function BuildForMultipleRules(){
         }
         console.log(`multi start in ==> ${filteredList}`);
         for(let i = 0; i < filteredList.length; i++){
-            for(let j = 0; j < userRule_EndsWith.length; j++){    
-                if(filteredList[i].substring(4) == userRule_EndsWith[j] ){
+            for(let j = 0; j < userRuleEndsWith.length; j++){    
+                if(filteredList[i].substring(4) == userRuleEndsWith[j] ){
                     filteredList.splice(i,1);
                     //because the fileteredList array size goes down after splice
                     i--;
@@ -296,17 +296,17 @@ function BuildForMultipleRules(){
 function buildForOnlyStartsWith(){
     
     for(let i = 0; i < listOfPhoneNumbers.length; i++){
-           for(let j = 0; j < userRule_StartsWith.length; j++){
-               if(!(listOfPhoneNumbers[i].startsWithThree == userRule_StartsWith[j])){
+           for(let j = 0; j < userRuleStartsWith.length; j++){
+               if(!(listOfPhoneNumbers[i].startsWithThree == userRuleStartsWith[j])){
                    filteredList.push(listOfPhoneNumbers[i].phoneNumber);
                }
            }
     }
 
     for(let i = 0; i < filteredList.length; i++){
-        for(let j = 0; j < userRule_StartsWith.length; j++){
+        for(let j = 0; j < userRuleStartsWith.length; j++){
             if(filterList[i] !==null && filteredList[i] !== undefined){
-                if(filteredList[i].substring(0,3) == userRule_StartsWith[j]){
+                if(filteredList[i].substring(0,3) == userRuleStartsWith[j]){
                     filteredList.splice(i,1);
                     //because the fileteredList array size goes down after splice
                     i--;
@@ -320,17 +320,17 @@ function buildForOnlyStartsWith(){
 function buildForOnlyEndsWith(){
     
     for(let i = 0; i < listOfPhoneNumbers.length; i++){
-           for(let j = 0; j < userRule_EndsWith.length; j++){
-               if(!(listOfPhoneNumbers[i].endsWithThree == userRule_EndsWith[j])){
+           for(let j = 0; j < userRuleEndsWith.length; j++){
+               if(!(listOfPhoneNumbers[i].endsWithThree == userRuleEndsWith[j])){
                    filteredList.push(listOfPhoneNumbers[i].phoneNumber);
                }
            }
     }
 
     for(let i = 0; i < filteredList.length; i++){
-        for(let j = 0; j < userRule_EndsWith.length; j++){
+        for(let j = 0; j < userRuleEndsWith.length; j++){
             if(filteredList[i] !== null && filteredList[i] !== undefined){
-                if(filteredList[i].substring(4) == userRule_EndsWith[j]){
+                if(filteredList[i].substring(4) == userRuleEndsWith[j]){
                     filteredList.splice(i,1);
                     //because the fileteredList array size goes down after splice
                     i--;
