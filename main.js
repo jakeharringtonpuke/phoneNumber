@@ -26,8 +26,6 @@ class phone{
     this.phoneNumber = phoneNumber;
     this.startsWithThree = phoneNumber.substring(0,3);
     this.endsWithThree = phoneNumber.substring(4);
-    this.startsWithFour = phoneNumber.substring(0,4);
-    this.endsWithFour = phoneNumber.substring(3);
   }
 }
 
@@ -108,10 +106,10 @@ function onAdd(event){
     event.preventDefault();  
     
     //user rule inputs expected pattern
-    let pattern = "[0-9]{3,4}";
+    let pattern = "[0-9]{3}";
     
-    //checks if user input is only 3 or 4 digits long
-    if(!(numberEnteredInput.length < 3 && numberEnteredInput.length > 4) ){
+    //checks if user input is only 3  digits long
+    if(!(numberEnteredInput.length == 3) ){
 
         //cleaning user input
         numberEnteredInput.value = (numberEnteredInput.value).match(pattern);
@@ -199,7 +197,7 @@ function addingUserRuleToUserRule_StartsWithAndUserRule_EndsWithArrays(){
 function errorMsgForUserRule(){
     
     errorMsg.classList.add('error');
-    errorMsg.innerHTML = 'please enter 3 or 4 digit number only';
+    errorMsg.innerHTML = 'please enter a 3 digit number only';
     setTimeout(()=>errorMsg.remove(),3000);    
 }
 
