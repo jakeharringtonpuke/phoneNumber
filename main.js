@@ -47,6 +47,7 @@ function createPhoneNumber(userProvidedNumber){
     
 }
 
+
 function onSubmit(event){
     event.preventDefault();
 
@@ -120,10 +121,14 @@ function onAdd(event){
 
         // add numberEnteredInput to either userRule_StartsWith array or
         // userRule_EndsWith array
-        addingUserRuleToUserRule_StartsWithAndUserRule_EndsWithArrays();
+        //and returns true if the digit was added
+         let digitsAdded = addingUserRuleToUserRule_StartsWithAndUserRule_EndsWithArrays();
+
 
         //display the user
-        displayRulesDigitForUserList(numberEnteredInput.value);
+        if(digitsAdded){
+            displayRulesDigitForUserList(numberEnteredInput.value);
+        }
 
         //test to check userRule_StartsWith array
         console.log(userRule_StartsWith);
@@ -170,6 +175,7 @@ function addingUserRuleToUserRule_StartsWithAndUserRule_EndsWithArrays(){
             //final check to not allow any empty values to be pushed to the array
             if(numberEnteredInput.value !== ""){
                 userRule_StartsWith.push(numberEnteredInput.value);
+                return true;
             }           
         }
     }
@@ -181,9 +187,12 @@ function addingUserRuleToUserRule_StartsWithAndUserRule_EndsWithArrays(){
             //final check to not allow any empty values to be pushed to the array
             if(numberEnteredInput.value !== ""){
                 userRule_EndsWith.push(numberEnteredInput.value);
+                return true;
             }
         }
     }
+
+    return false;
 }
 
 //if the user input for the rules are wrong then this error message is used
@@ -241,7 +250,7 @@ function cleanResultList(){
 
 //TODO
 function BuildStartsWith(){
-    
+    filteredList = 
       
 }
 
