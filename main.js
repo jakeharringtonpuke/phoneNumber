@@ -4,12 +4,14 @@ const numberInput = document.querySelector('#phoneNumber');
 const numberEnteredInput = document.querySelector('#numberEntered');
 const rulesInput = document.querySelector('#rule');
 const userList = document.querySelector('#users');
+const rulesList = document.querySelector('#rulesList');
 const resultList = document.querySelector('#results');
 
 myForm.addEventListener('submit', onSubmit);
 myForm.addEventListener('reset', onAdd);
 
 let listOfPhoneNumbers = [];
+let removedItems = [];
 let userRule_StartsWith = [];
 let userRule_EndsWith = [];
 let filteredList = [];
@@ -103,9 +105,6 @@ function displayPhoneListForUserList(value){
 function onAdd(event){
 
     event.preventDefault();  
-
-    //cleaan up result list
-    cleanResultList()
     
     //user rule inputs expected pattern
     let pattern = "[0-9]{3,4}";
@@ -123,6 +122,9 @@ function onAdd(event){
         // userRule_EndsWith array
         addingUserRuleToUserRule_StartsWithAndUserRule_EndsWithArrays();
 
+        //display the user
+        displayRulesDigitForUserList(numberEnteredInput.value);
+
         //test to check userRule_StartsWith array
         console.log(userRule_StartsWith);
 
@@ -139,6 +141,16 @@ function onAdd(event){
         errorMsgForUserRule();
     }
         
+}
+
+//shows the user the list of rules digits they are creating
+function displayRulesDigitForUserList(value){
+    //get the user rule selected
+   const userRule = rulesInput.options[rulesInput.selectedIndex].text;
+   
+   const li =document.createElement('li');
+   li.appendChild(document.createTextNode(`${userRule} ==> ${value}`));
+   rulesList.appendChild(li);
 }
 
 // Rules section Starts here
@@ -186,16 +198,17 @@ function filterList(){
 
     console.log(`userRule_StartsWith.length ${userRule_StartsWith.length} and \n 
                 userRule_EndsWith.length ${userRule_EndsWith.length} `);
-    
-    BuildResultWithDuplicates();
+    //if new filter then clean result list
+    if(counter == 1){
+        counter = 0;
+        location.reload();
+    }
+    BuildStartsWith();
     //should I make the userRule_StartsWith and userRule_EndsWith array empty?
     userRule_StartsWith.length = 0;
     userRule_EndsWith.length = 0;
 
     console.log(filteredList);
-
-    //cleaan up result list
-    cleanResultList()
     
     //increases counter to indicate the number of time filter is used
     counter++;
@@ -227,36 +240,15 @@ function cleanResultList(){
 }
 
 //TODO
-function BuildResultWithDuplicates(){
-    for(let i = 0; i < listOfPhoneNumbers.length; i++){
-        for(let j = 0; j < userRule_StartsWith.length; j++){
-            console.log(`start==> ${listOfPhoneNumbers[i].startsWithThree !== userRule_StartsWith[j]}`)
-            if(listOfPhoneNumbers[i].startsWithThree !== userRule_StartsWith[j]){
-                filteredList.push(listOfPhoneNumbers[i].phoneNumber);
-            }
-        }
-    }
-    filteredList = [...new Set(filteredList)];
-
- 
-        for(let i = 0; i < listOfPhoneNumbers.length; i++){
-            for(let j = 0; j < userRule_EndsWith.length; j++){
-                console.log(`ends==> ${listOfPhoneNumbers[i].endsWithThree !== userRule_EndsWith[j]}`);
-                if(!(listOfPhoneNumbers[i].endsWithThree !== userRule_EndsWith[j])){
-                    filteredList.reduce((unique,item) =>
-                    unique.includes(item) ? unique: [...unique,item],[]);
-                }
-                if(listOfPhoneNumbers[i].endsWithThree !== userRule_EndsWith[j]){
-                    filteredList.push(listOfPhoneNumbers[i].phoneNumber);
-                }
-            }
-        }
+function BuildStartsWith(){
     
-
-    filteredList = [...new Set(filteredList)];
+      
 }
 
-
+/*if(!(listOfPhoneNumbers[i].endsWithThree !== userRule_EndsWith[j])){
+                filteredList.reduce((unique,item) =>
+                unique.includes(item) ? unique: [...unique,item],[]);
+            } */
 //creates li element to display filtered list of phone numbers
 function showFilteredListToUser(){
     for(let i = 0 ; i < filteredList.length; i++ ){
@@ -265,13 +257,6 @@ function showFilteredListToUser(){
      resultList.appendChild(li);
     }
 }
-
-
-
-
-
-
-
 
 /*
 numberEnteredInput.value = '';
