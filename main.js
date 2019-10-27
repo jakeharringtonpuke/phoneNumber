@@ -243,9 +243,8 @@ function BuildResultWithDuplicates(){
             for(let j = 0; j < userRule_EndsWith.length; j++){
                 console.log(`ends==> ${listOfPhoneNumbers[i].endsWithThree !== userRule_EndsWith[j]}`);
                 if(!(listOfPhoneNumbers[i].endsWithThree !== userRule_EndsWith[j])){
-                    for(let k = 0; k < filteredList.length; k++){
-                        filteredList.splice(k,1);
-                    }
+                    filteredList.reduce((unique,item) =>
+                    unique.includes(item) ? unique: [...unique,item],[]);
                 }
                 if(listOfPhoneNumbers[i].endsWithThree !== userRule_EndsWith[j]){
                     filteredList.push(listOfPhoneNumbers[i].phoneNumber);
