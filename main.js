@@ -250,14 +250,36 @@ function cleanResultList(){
 
 //TODO
 function BuildStartsWith(){
-    filteredList = 
-      
+       for(let i = 0; i < listOfPhoneNumbers.length; i++){
+           for(let j = 0; j < userRule_StartsWith.length; j++){
+               if(listOfPhoneNumbers[i].startsWithThree !== userRule_StartsWith[j]){
+                   filteredList.push(listOfPhoneNumbers[i].phoneNumber);
+               }
+           }
+       }
+
+       filteredList = [...new Set(filteredList)];
+       console.log(`BuildStartsWith first ==> ${filteredList}`)
+
+       for(let i = 0; i < listOfPhoneNumbers.length; i++){
+            for(let j = 0; j < userRule_EndsWith.length; j++){
+                if(listOfPhoneNumbers[i].endsWithThree !== userRule_EndsWith[j]){
+                    filteredList.push(listOfPhoneNumbers[i].phoneNumber);;
+                }
+            }
+        }
+        for(let i = 0; i < filteredList.length; i++){
+            for(let j = 0; j < userRule_EndsWith.length; j++){    
+                if(filteredList[i].substring(4) == userRule_EndsWith[j] ){
+                    filteredList.splice(i,1);
+                }
+            }
+        }
+
+        filteredList = [...new Set(filteredList)]; 
+       console.log(`BuildStartsWith second ==> ${filteredList}`)
 }
 
-/*if(!(listOfPhoneNumbers[i].endsWithThree !== userRule_EndsWith[j])){
-                filteredList.reduce((unique,item) =>
-                unique.includes(item) ? unique: [...unique,item],[]);
-            } */
 //creates li element to display filtered list of phone numbers
 function showFilteredListToUser(){
     for(let i = 0 ; i < filteredList.length; i++ ){
