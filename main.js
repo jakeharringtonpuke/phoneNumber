@@ -198,8 +198,10 @@ function displayRulesDigitForUserList(value){
    const userRule = rulesInput.options[rulesInput.selectedIndex].text;
    
    const li =document.createElement('li');
-   li.appendChild(document.createTextNode(`${userRule} ==> ${value}`));
+   li.appendChild(document.createTextNode(`${userRule.substring(9)}=>${value}`));
    rulesList.appendChild(li);
+   
+   numberEnteredInput.value = "";
 }
 
 // Rules section Starts here

@@ -9,15 +9,17 @@
   </head>
   <body>
 
-    <section>
+    <section class="container">
         <form id="my-form">
             <h1>Phone Filter</h1>
 
             <div>
                 <label for="phoneNumber">Input:</label>
                 <input type="text" id="phoneNumber" pattern="[0-9]{7}" placeholder="9293404" required 
-                oninvalid="this.setCustomValidity('Please Enter valid Phone number without area code ==> 9293404')"
-                oninput="setCustomValidity('')">
+                oninvalid="this.setCustomValidity('Please Enter a 7 digit Phone number ==> 9293404')"
+                oninput="setCustomValidity('')">  
+                
+                <input type="submit" value="Enter Number" class="btn">
             </div>
             
             <div>
@@ -31,30 +33,44 @@
             <div>
               <!--- validation doesnt work-->
                 <label for="numberEntered">Number:</label>
-                <input type="text" id="numberEntered" pattern="[0-9]{3}" placeholder="929" 
-                oninvalid="this.setCustomValidity('Please Enter valid 3 digits ==> 929')"
+                <input type="text" id="numberEntered" pattern="[0-9]{3,4}" placeholder="929" 
+                oninvalid="this.setCustomValidity('Please Enter valid 3 digit number ==> 929')"
                 oninput="setCustomValidity('')">
+                
                 <div class='msg'></div>
+                
+                <input type="reset" value="Add" class="btn-red">
             </div>
-
-
-            <input type="submit" value="Submit" class="btn">
-            
-            <input type="reset" value="Add" class="btn-red">
             
             <input type="button" onclick="filterList()" value="Filter List" class="btn">
         
           </form>
-        
-        <label for="users">Phone Numbers</label>
-        <ul id="users"></ul>
-        
-        <label for="results">Wanted Numbers</label>
-        <ul id="results"></ul>
     
+      </section>  
+      <section class="container">
+          <form id="my-form">
+            <table>
+              <tr>
+                <th><label for="users">Phone</label></th>
+              </tr>
+              <tr>
+                <td id="users"></td>   
+              </tr>
+              <tr>
+                  <th><label for="rulesList">Rules</label></th>
+                  <tr>
+                      <td id="rulesList"></td>
+                  </tr>
+              </tr>
+              <tr>
+                  <th><label for="results">Filtered</label></th>
+                  <tr>
+                      <td id="results"></td>
+                  </tr>
+              </tr>
+            </table> 
+         </form>
       </section>
-   
-
     <script src="main.js"></script>
   </body>
 </html>
