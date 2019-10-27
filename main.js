@@ -225,6 +225,9 @@ function filterList(){
     console.log(`check==> ${userRule_StartsWith.length > 0 && userRule_EndsWith.length > 0}`);
     //for multiple rules
     if(userRule_StartsWith.length > 0 && userRule_EndsWith.length > 0){
+        //BuildForMultipleRules();
+        buildForOnlyStartsWith();
+        buildForOnlyEndsWith();
         BuildForMultipleRules();
     }
     
@@ -265,7 +268,7 @@ function cleanResultList(){
 
 //TODO
 function BuildForMultipleRules(){
-       for(let i = 0; i < listOfPhoneNumbers.length; i++){
+       /*for(let i = 0; i < listOfPhoneNumbers.length; i++){
            for(let j = 0; j < userRule_StartsWith.length; j++){
                if(listOfPhoneNumbers[i].startsWithThree !== userRule_StartsWith[j]){
                    filteredList.push(listOfPhoneNumbers[i].phoneNumber);
@@ -282,11 +285,21 @@ function BuildForMultipleRules(){
                     filteredList.push(listOfPhoneNumbers[i].phoneNumber);;
                 }
             }
+        }*/
+        for(let i = 0; i < filteredList.length; i++){
+            for(let j = 0; j < userRule_StartsWith.length; j++){
+                if(filteredList[i].substring(0,3) == userRule_StartsWith[j]){
+                    filteredList.splice(i,1);
+                    i--;
+                }
+            }
         }
+        console.log(`multi start in ==> ${filteredList}`);
         for(let i = 0; i < filteredList.length; i++){
             for(let j = 0; j < userRule_EndsWith.length; j++){    
                 if(filteredList[i].substring(4) == userRule_EndsWith[j] ){
                     filteredList.splice(i,1);
+                    i--;
                 }
             }
         }
@@ -307,8 +320,11 @@ function buildForOnlyStartsWith(){
 
     for(let i = 0; i < filteredList.length; i++){
         for(let j = 0; j < userRule_StartsWith.length; j++){
-            if(filteredList[i].substring(0,3) == userRule_StartsWith[j]){
-                filteredList.splice(i,1);
+            if(filterList[i] !==null && filteredList[i] !== undefined){
+                if(filteredList[i].substring(0,3) == userRule_StartsWith[j]){
+                    filteredList.splice(i,1);
+                    i--;
+                } 
             }
         }
     }
@@ -327,8 +343,11 @@ function buildForOnlyEndsWith(){
 
     for(let i = 0; i < filteredList.length; i++){
         for(let j = 0; j < userRule_EndsWith.length; j++){
-            if(filteredList[i].substring(4) == userRule_EndsWith[j]){
-                filteredList.splice(i,1);
+            if(filteredList[i] !== null && filteredList[i] !== undefined){
+                if(filteredList[i].substring(4) == userRule_EndsWith[j]){
+                    filteredList.splice(i,1);
+                    i--;
+                }
             }
         }
     }
