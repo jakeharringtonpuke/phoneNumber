@@ -66,41 +66,6 @@ function onSubmit(event){
     }     
 }
 
-//if phone number dosent exits then adds to the listOfPhoneNumbers array 
-//else checks if the phone number provided already exits
-//if it does not exist, then pushes the phone to the 
-//listOfPhoneNumbers array
-function buildTheUserPhoneList(phone){  
-        if(listOfPhoneNumbers.length == 0){
-            listOfPhoneNumbers.push(phone);
-            displayPhoneListForUserList(phone.phoneNumber);
-        }
-        if(!traverseForDuplicateInListOfPhoneNumbers(phone)){
-            listOfPhoneNumbers.push(phone);
-            displayPhoneListForUserList(phone.phoneNumber);
-        }
-        
-}
-
-//checks if listOfPhoneNumbers array has a number that mathces users 
-//new input of phone of phone number
-function traverseForDuplicateInListOfPhoneNumbers(phone){
-    for(let i = 0; i < listOfPhoneNumbers.length; i++){
-       if(listOfPhoneNumbers[i].phoneNumber == phone.phoneNumber){
-           return true;
-       }
-    }
-    return false;
-}
-
-//shows the user the list of phone numbers they are creating
-function displayPhoneListForUserList(value){
-     
-     const li =document.createElement('li');
-     li.appendChild(document.createTextNode(`${value}`));
-     userList.appendChild(li);
-}
-
 function onAdd(event){
 
     event.preventDefault();  
@@ -144,6 +109,88 @@ function onAdd(event){
         errorMsgForUserRule();
     }
         
+}
+
+function filterList(){  
+
+    console.log(`userRule_StartsWith.length ${userRule_StartsWith.length} and \n 
+                userRule_EndsWith.length ${userRule_EndsWith.length} `);
+    //if new filter then clean result list
+    //cheating big time with this
+    if(counter == 1){
+        counter = 0;
+        location.reload();
+    }
+    console.log(`check==> ${userRule_StartsWith.length > 0 && userRule_EndsWith.length < 1}`);
+    //for only startswith
+    if(userRule_StartsWith.length > 0 && userRule_EndsWith.length < 1){
+        buildForOnlyStartsWith();
+    }
+
+    console.log(`check==> ${userRule_StartsWith.length < 1 && userRule_EndsWith.length > 0}`);
+    //for only startswith
+    if(userRule_StartsWith.length < 1 && userRule_EndsWith.length > 0){
+        buildForOnlyEndsWith();
+    }
+
+    console.log(`check==> ${userRule_StartsWith.length > 0 && userRule_EndsWith.length > 0}`);
+    //for multiple rules
+    if(userRule_StartsWith.length > 0 && userRule_EndsWith.length > 0){
+        //BuildForMultipleRules();
+        buildForOnlyStartsWith();
+        buildForOnlyEndsWith();
+        BuildForMultipleRules();
+    }
+    
+    //should I make the userRule_StartsWith and userRule_EndsWith array empty?
+    userRule_StartsWith.length = 0;
+    userRule_EndsWith.length = 0;
+
+    console.log(filteredList);
+    
+    //increases counter to indicate the number of time filter is used
+    counter++;
+    //show user the filtered list
+        showFilteredListToUser();
+        filteredList.length = 0
+
+    //test
+    //console.log(showFilteredListToUser());
+}
+
+//if phone number dosent exits then adds to the listOfPhoneNumbers array 
+//else checks if the phone number provided already exits
+//if it does not exist, then pushes the phone to the 
+//listOfPhoneNumbers array
+function buildTheUserPhoneList(phone){  
+        if(listOfPhoneNumbers.length == 0){
+            listOfPhoneNumbers.push(phone);
+            displayPhoneListForUserList(phone.phoneNumber);
+        }
+        if(!traverseForDuplicateInListOfPhoneNumbers(phone)){
+            listOfPhoneNumbers.push(phone);
+            displayPhoneListForUserList(phone.phoneNumber);
+        }
+        
+}
+
+//checks if listOfPhoneNumbers array has a number that mathces users 
+//new input of phone number
+function traverseForDuplicateInListOfPhoneNumbers(phone){
+    for(let i = 0; i < listOfPhoneNumbers.length; i++){
+       if(listOfPhoneNumbers[i].phoneNumber == phone.phoneNumber){
+           return true;
+       }
+    }
+    return false;
+}
+
+//shows the user the list of phone numbers they are creating
+function displayPhoneListForUserList(value){
+     
+     const li =document.createElement('li');
+     li.appendChild(document.createTextNode(`${value}`));
+     userList.appendChild(li);
 }
 
 //shows the user the list of rules digits they are creating
@@ -201,52 +248,6 @@ function errorMsgForUserRule(){
     setTimeout(()=>errorMsg.remove(),3000);    
 }
 
-function filterList(){  
-
-    console.log(`userRule_StartsWith.length ${userRule_StartsWith.length} and \n 
-                userRule_EndsWith.length ${userRule_EndsWith.length} `);
-    //if new filter then clean result list
-    if(counter == 1){
-        counter = 0;
-        location.reload();
-    }
-    console.log(`check==> ${userRule_StartsWith.length > 0 && userRule_EndsWith.length < 1}`);
-    //for only startswith
-    if(userRule_StartsWith.length > 0 && userRule_EndsWith.length < 1){
-        buildForOnlyStartsWith();
-    }
-
-    console.log(`check==> ${userRule_StartsWith.length < 1 && userRule_EndsWith.length > 0}`);
-    //for only startswith
-    if(userRule_StartsWith.length < 1 && userRule_EndsWith.length > 0){
-        buildForOnlyEndsWith();
-    }
-
-    console.log(`check==> ${userRule_StartsWith.length > 0 && userRule_EndsWith.length > 0}`);
-    //for multiple rules
-    if(userRule_StartsWith.length > 0 && userRule_EndsWith.length > 0){
-        //BuildForMultipleRules();
-        buildForOnlyStartsWith();
-        buildForOnlyEndsWith();
-        BuildForMultipleRules();
-    }
-    
-    //should I make the userRule_StartsWith and userRule_EndsWith array empty?
-    userRule_StartsWith.length = 0;
-    userRule_EndsWith.length = 0;
-
-    console.log(filteredList);
-    
-    //increases counter to indicate the number of time filter is used
-    counter++;
-    //show user the filtered list
-        showFilteredListToUser();
-        filteredList.length = 0
-
-    //test
-    //console.log(showFilteredListToUser());
-}
-
 //idl if i need this
 function accesOnePhoneObject(phoneNumber){
     for(let i = 0; i < listOfPhoneNumbers.length; i++ ){
@@ -268,24 +269,7 @@ function cleanResultList(){
 
 //TODO
 function BuildForMultipleRules(){
-       /*for(let i = 0; i < listOfPhoneNumbers.length; i++){
-           for(let j = 0; j < userRule_StartsWith.length; j++){
-               if(listOfPhoneNumbers[i].startsWithThree !== userRule_StartsWith[j]){
-                   filteredList.push(listOfPhoneNumbers[i].phoneNumber);
-               }
-           }
-       }
 
-       filteredList = [...new Set(filteredList)];
-       console.log(`BuildStartsWith first ==> ${filteredList}`)
-
-       for(let i = 0; i < listOfPhoneNumbers.length; i++){
-            for(let j = 0; j < userRule_EndsWith.length; j++){
-                if(listOfPhoneNumbers[i].endsWithThree !== userRule_EndsWith[j]){
-                    filteredList.push(listOfPhoneNumbers[i].phoneNumber);;
-                }
-            }
-        }*/
         for(let i = 0; i < filteredList.length; i++){
             for(let j = 0; j < userRule_StartsWith.length; j++){
                 if(filteredList[i].substring(0,3) == userRule_StartsWith[j]){
@@ -299,6 +283,7 @@ function BuildForMultipleRules(){
             for(let j = 0; j < userRule_EndsWith.length; j++){    
                 if(filteredList[i].substring(4) == userRule_EndsWith[j] ){
                     filteredList.splice(i,1);
+                    //because the fileteredList array size goes down after splice
                     i--;
                 }
             }
@@ -323,6 +308,7 @@ function buildForOnlyStartsWith(){
             if(filterList[i] !==null && filteredList[i] !== undefined){
                 if(filteredList[i].substring(0,3) == userRule_StartsWith[j]){
                     filteredList.splice(i,1);
+                    //because the fileteredList array size goes down after splice
                     i--;
                 } 
             }
@@ -346,6 +332,7 @@ function buildForOnlyEndsWith(){
             if(filteredList[i] !== null && filteredList[i] !== undefined){
                 if(filteredList[i].substring(4) == userRule_EndsWith[j]){
                     filteredList.splice(i,1);
+                    //because the fileteredList array size goes down after splice
                     i--;
                 }
             }
@@ -363,17 +350,3 @@ function showFilteredListToUser(){
      resultList.appendChild(li);
     }
 }
-
-/*
-numberEnteredInput.value = '';
-if(nameInput.value ===''){
-        errorMsg.classList.add('error');
-        errorMsg.innerHTML = 'please enter all feilds';
-        setTimeout(()=>errorMsg.remove(),3000);
-    }else
-for(let i = 0; i < intermediate.length; i++ ){
-        
-        const li =document.createElement('li');
-        li.appendChild(document.createTextNode(`${intermediate[i].phoneNumber}`));
-        resultList.appendChild(li);
-    } */
