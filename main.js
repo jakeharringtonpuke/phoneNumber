@@ -1,3 +1,5 @@
+
+  
 const myForm = document.querySelector('#my-form');
 const errorMsg = document.querySelector('.msg');
 const numberInput = document.querySelector('#phoneNumber');
@@ -16,7 +18,6 @@ let userRuleStartsWith = [];
 let userRuleEndsWith = [];
 let filteredList = [];
 let counterForFilterList = 0;
-let counterForOnAdd = 0;
 
 
 
@@ -73,12 +74,14 @@ function onSubmit(event){
 function onAdd(event){
 
     event.preventDefault();
-    
-    /* introduces a bug
-    if(counterForOnAdd > 1){
+
+    //if the user wants to do a new filter on the same l
+    //list of phone number then clean result list
+    if(userRuleEndsWith.length == 0 && userRuleStartsWith.length == 0){
         cleanRulestList();
-        counterForOnAdd = 0;
-    }*/
+        cleanResultList();
+    }
+    
     //user rule inputs expected pattern
     let pattern = "[0-9]{3,4}";
     
@@ -124,13 +127,6 @@ function filterList(){
 
     console.log(`userRule_StartsWith.length ${userRuleStartsWith.length} and \n 
                 userRule_EndsWith.length ${userRuleEndsWith.length} `);
-    //if new filter then clean result list
-    
-    //cheating big time with this
-    if(counterForFilterList > 0){
-        counterForFilterList = 0;
-        location.reload();
-    }
 
     console.log(`check==> ${userRuleStartsWith.length > 0 && userRuleEndsWith.length < 1}`);
     //for only startswith
@@ -166,6 +162,11 @@ function filterList(){
 
     //test
     //console.log(showFilteredListToUser());
+}
+
+//starts over fresh
+function startAgain(){
+    location.reload();
 }
 
 //if phone number dosent exits then adds to the listOfPhoneNumbers array 

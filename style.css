@@ -98,10 +98,21 @@
   
   .btn-red {
     display: block;
-    width: 30%;
+    width: 100%;
     padding: 10px 15px;
     border: 0;
     background:red;
+    color: #fff;
+    border-radius: 5px;
+    margin: 5px 0;
+  }
+
+  .btn-green {
+    display: block;
+    width: 30%;
+    padding: 10px 15px;
+    border: 0;
+    background:green;
     color: #fff;
     border-radius: 5px;
     margin: 5px 0;
